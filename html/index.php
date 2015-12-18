@@ -81,7 +81,11 @@ $e->calculate();
 
     <div class="starter-template">
       <h1>Example calculations<span class="required">*</span></h1>
-      <p>Comes from http://mitan.co.uk/erlang/elgcmath.htm</p>
+      <p>Comes from http://mitan.co.uk/erlang/elgcmath.htm
+      <a href="https://github.com/tap52384/erlang-c" title="erlang-c">
+        (Github)
+      </a>
+    </p>
       <hr />
 
       <label>Given Values</label><br />
@@ -111,11 +115,15 @@ $e->calculate();
       <br />
       <p><span class="required">*</span>All time units are measured in seconds.</p>
 
+      <script src="https://gist.github.com/tap52384/5310572f1a053cccc040.js"></script>
+
     </div>
+
+
 
   </div><!-- /.container -->
 
-  <script src="https://gist.github.com/tap52384/5310572f1a053cccc040.js"></script>
+
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
