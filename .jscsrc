@@ -1,0 +1,7 @@
+{
+  "preset": "jquery",
+  "disallowTrailingComma": true,
+  "requireTrailingComma": false,
+  "validateQuoteMarks": { "mark": "'", "escape": true },
+  "requireCamelCaseOrUpperCaseIdentifiers": false
+}
