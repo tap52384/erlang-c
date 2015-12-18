@@ -115,7 +115,7 @@ $e->calculate();
 
   </div><!-- /.container -->
 
-
+  <script src="https://gist.github.com/tap52384/5310572f1a053cccc040.js"></script>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
