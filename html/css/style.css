@@ -11,3 +11,16 @@ body {
   color: red;
   font-weight: bold;
 }
+
+.github {
+  display: inline-block;
+width: 38px;
+height: 38px;
+background-image: url(../img/pinned-octocat.svg);
+background-position: center;
+background-size: contain;
+background-repeat: no-repeat;
+background-color: transparent;
+overflow: hidden;
+color: transparent;
+}

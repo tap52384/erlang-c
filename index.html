@@ -1,1 +1,147 @@
-Hello world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>Erlang-C Formula</title>
+
+  <!-- Bootstrap -->
+  <link href="html/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <link rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  <!-- Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+
+  <link href="html/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+        data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+        aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Erlang-C Formula</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="http://mitan.co.uk/erlang/elgcmath.htm">About</a></li>
+          <li><a href="http://mitan.co.uk/erlang/elgcmath.htm">JS</a></li>
+          <li><a href="https://gist.github.com/tap52384/5310572f1a053cccc040">PHP</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="starter-template">
+      <h1>Example calculations<span class="required">*</span>
+        <a href="https://github.com/tap52384/erlang-c" title="erlang-c" class="github"></a>
+      </h1>
+      <p>
+        Comes from <a href="http://mitan.co.uk/erlang/elgcmath.htm">The Erlang-C Formula</a>:
+      </p>
+      <p>
+        <code>
+          E<sub>c</sub>(m,u) = (u<sup>m</sup>/m!) / (u<sup>m</sup>/m!) + ((1 - p) *
+          &#931;<sup>m-1</sup>(u<sup>k</sup>/k!))<br />
+          where <i>E<sub>c</sub>(m,u)</i> is the probability that a customer will have to wait,<br />
+          <i>m</i> is the number of agents,<br />
+          <i>u</i> is the traffic intensity,<br />
+          <i>p</i> is the agent occupancy (equals <i>u / m</i>),<br />
+          and <i>k</i> is every integer from 1 to <i>m</i> - 1.
+        </code>
+      </p>
+    <p><span class="required">*</span>All time units are measured in seconds.</p>
+      <hr />
+      <form>
+        <div class="col-sm-6">
+        <label>Required Values</label>
+        <div class="form-group">
+          <input type="number" class="form-control" id="totalTimePeriodSeconds"
+          placeholder="Number of seconds in a time period" />
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control" id="totalNumberOfCalls"
+          placeholder="Total number of calls in a time period" />
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control" id="totalCallDuration"
+          placeholder="Total call duration (sum of length of all calls in seconds)" />
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control" id="numberOfAgents"
+          placeholder="Number of agents" />
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control" id="targetAnswerTime"
+          placeholder="Target answer time (s)" />
+        </div>
+      </div>
+        <div class="col-sm-6">
+        <label>Calculated Values</label>
+        <div class="form-group">
+          <input type="text" class="form-control" id="averageArrivalRate"
+          placeholder="Average arrival rate (calls per second)" disabled />
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="averageCallDuration"
+          placeholder="Average call duration (s)" disabled />
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="trafficIntensity"
+          placeholder="Traffic intensity" disabled />
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="agentOccupancy"
+          placeholder="Agent occupancy" disabled />
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="probabilityOfWaiting"
+          placeholder="Probability of waiting" disabled />
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="averageSpeedOfAnswer"
+          placeholder="Average speed of answer (response time)" disabled />
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="serviceLevel"
+          placeholder="Service level (requires a target answer time)" disabled />
+        </div>
+      </div>
+      </form>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <!-- additional content can go here -->
+
+  </div><!-- /.container -->
+
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="html/node_modules/jquery/dist/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="html/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
