@@ -1,9 +1,9 @@
 ( function( erlangc, $, window, document, undefined ) {
 
-  // enable strict mode
+  // Enable strict mode
   'use strict';
 
-  /* private variables */
+  /* Private variables */
   var totalNumberOfCalls = 0;
   var timePeriodInSeconds = 0;
   var averageCallDuration = 0;
@@ -17,7 +17,7 @@
   var averageSpeedOfAnswer = 0;
   var serviceLevel = 0;
 
-  /* private functions */
+  /* Private functions */
   /**
   * Calculates the Erlang-C formula using all available data.
   */
@@ -52,7 +52,7 @@
     // Sigma notation means for every number k from 0 to (number of agents - 1),
     // add (traffic intensity ^ k) / (k factorial)
     var powNumerator = numberOfAgents > 0 ?
-    Math.pow(trafficIntensity, numberOfAgents) /
+    Math.pow( trafficIntensity, numberOfAgents ) /
     erlangc.factorial( numberOfAgents ) :
     0;
     var powDenominator = powNumerator +
@@ -71,9 +71,9 @@
     -( numberOfAgents - trafficIntensity ) *
     ( targetAnswerTime / averageCallDuration ) :
     0;
-    serviceLevel = 1 - (probabilityOfWaiting * Math.exp( eExponent ) );
+    serviceLevel = 1 - ( probabilityOfWaiting * Math.exp( eExponent ) );
 
-  };
+  }
 
   /**
   * Calculates the sigma notation in the denominator of the Erlang-C
@@ -98,7 +98,7 @@
       var element = document.getElementById( id );
       var value = element !== null ? element.value.trim().replace( / /g, '' ) : null;
       var int = parseInt( value, 10 );
-      return !isNaN(int) ? int : 0;
+      return !isNaN( int ) ? int : 0;
   }
 
   /**
@@ -106,13 +106,13 @@
   */
   function read() {
 
-    totalNumberOfCalls = getValueAsInt( 'totalNumberOfCalls');
-    timePeriodInSeconds = getValueAsInt('timePeriodInSeconds');
-    averageCallDuration = getValueAsInt('averageCallDuration');
-    numberOfAgents = getValueAsInt('numberOfAgents');
-    targetAnswerTime = getValueAsInt('targetAnswerTime');
+    totalNumberOfCalls = getValueAsInt( 'totalNumberOfCalls' );
+    timePeriodInSeconds = getValueAsInt( 'timePeriodInSeconds' );
+    averageCallDuration = getValueAsInt( 'averageCallDuration' );
+    numberOfAgents = getValueAsInt( 'numberOfAgents' );
+    targetAnswerTime = getValueAsInt( 'targetAnswerTime' );
 
-  };
+  }
 
   /**
   * Writes the calculated values to the appropriate textboxes.
@@ -120,10 +120,13 @@
   function write() {
     document.getElementById( 'averageArrivalRate' ).value = averageArrivalRate + ' calls / second';
     document.getElementById( 'trafficIntensity' ).value = trafficIntensity;
-    document.getElementById( 'agentOccupancy' ).value = (agentOccupancy * 100).toFixed(2) + "%";
-    document.getElementById( 'probabilityOfWaiting' ).value = (probabilityOfWaiting * 100).toFixed(2) + "%";
-    document.getElementById( 'averageSpeedOfAnswer' ).value = averageSpeedOfAnswer.toFixed( 2 ) + ' seconds';
-    document.getElementById( 'serviceLevel' ).value = ( serviceLevel * 100).toFixed( 2 ) + '%';
+    document.getElementById( 'agentOccupancy' ).value =
+    ( agentOccupancy * 100 ).toFixed( 2 ) + '%';
+    document.getElementById( 'probabilityOfWaiting' ).value =
+    ( probabilityOfWaiting * 100 ).toFixed( 2 ) + '%';
+    document.getElementById( 'averageSpeedOfAnswer' ).value =
+    averageSpeedOfAnswer.toFixed( 2 ) + ' seconds';
+    document.getElementById( 'serviceLevel' ).value = ( serviceLevel * 100 ).toFixed( 2 ) + '%';
   }
 
   /**
@@ -133,8 +136,8 @@
   */
   erlangc.factorial = function( number ) {
 
-    if ( number === 0) { return 1; }
-    return number * erlangc.factorial(number - 1);
+    if ( number === 0 ) { return 1; }
+    return number * erlangc.factorial( number - 1 );
 
   };
 
@@ -144,33 +147,37 @@
   erlangc.log = function( text, error ) {
 
     if ( window.console ) {
-        if ( error && window.console.error ) { window.console.error( text ); }
-        else if ( window.console.log ) { window.console.log( text ); }
+        if ( error && window.console.error ) {
+          window.console.error( text );
+        } else if ( window.console.log ) { window.console.log( text ); }
     } else if ( document.console ) {
-        if ( error && document.console.error ) { document.console.error( text ); }
-        else if ( document.console.log ) { document.console.log( text ); }
+        if ( error && document.console.error ) {
+          document.console.error( text );
+        } else if ( document.console.log ) {
+          document.console.log( text );
+        }
     }
 
   };
 
+  /**
+  * Single function for reading the user's input and updating the calculations.
+  */
   erlangc.update = function() {
     read();
     calculate();
     write();
   };
 
-
-
-  $( 'input[type="number"], #timePeriodInSeconds' ).change( function( e ) {
-    erlangc.update();
-    erlangc.log( 'change should have occurred!' );
+  // Executes calculations when changing the text in any field.
+  $( '.input' ).on( 'change keyup paste', function( e ) {
+      erlangc.update();
   } );
 
+  // Executes calculations upon page load.
   erlangc.update();
-  erlangc.log( 'totalNumberOfCalls: ' + totalNumberOfCalls );
 
+}( window.erlangc = window.erlangc || {}, jQuery, window, document ) );
 
-
-}( window.erlangc = window.erlangc || {}, jQuery, window, document));
-// down here is the code the defines the parameters used at the top of this self-executing function.
-// undefined is not defined so it is undefined. LOL
+// Down here is the code the defines the parameters used at the top of this self-executing function.
+// Undefined is not defined so it is undefined. LOL

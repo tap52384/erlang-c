@@ -71,7 +71,7 @@
           and <i>k</i> is every integer from 1 to <i>m</i> - 1.
         </code>
       </p>
-    <p><span class="required">*</span>All time units are measured in seconds.</p>
+    <p><span class="required">*</span>All time units are measured in seconds in the example, but works if you use the same unit of time for all measurements.</p>
       <hr />
       <p class="lead">Example: 360 calls per half hour (30 minutes = 1800 seconds), with an average call duration of 4 minutes (240 seconds), and 55 agents. The target answer time for service level is 15 seconds.</p>
       <form>
@@ -79,27 +79,27 @@
         <label>Required Values</label>
         <div class="form-group">
           <label for="timePeriodInSeconds">Time period (s)</label>
-          <input type="number" class="form-control" id="timePeriodInSeconds"
+          <input type="text" class="form-control input" id="timePeriodInSeconds"
           placeholder="Number of seconds in a time period" value="1800" />
         </div>
         <div class="form-group">
           <label for="totalNumberOfCalls">Total number of calls in time period</label>
-          <input type="number" class="form-control" id="totalNumberOfCalls"
+          <input type="number" class="form-control input" id="totalNumberOfCalls"
           placeholder="Total number of calls in a time period" value="360" />
         </div>
         <div class="form-group">
           <label for="averageCallDuration">Average call duration</label>
-          <input type="number" class="form-control" id="averageCallDuration"
+          <input type="number" class="form-control input" id="averageCallDuration"
           placeholder="Average call duration (s)" value="240" />
         </div>
         <div class="form-group">
           <label for="numberOfAgents">Number of agents</label>
-          <input type="number" class="form-control" id="numberOfAgents"
+          <input type="number" class="form-control input" id="numberOfAgents"
           placeholder="Number of agents" value="55" />
         </div>
         <div class="form-group">
           <label for="targetAnswerTime">Target answer time</label>
-          <input type="number" class="form-control" id="targetAnswerTime"
+          <input type="number" class="form-control input" id="targetAnswerTime"
           placeholder="Target answer time (s)" value="15" />
         </div>
       </div>
