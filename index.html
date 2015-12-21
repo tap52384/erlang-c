@@ -73,59 +73,67 @@
       </p>
     <p><span class="required">*</span>All time units are measured in seconds.</p>
       <hr />
+      <p class="lead">Example: 360 calls per half hour (30 minutes = 1800 seconds), with an average call duration of 4 minutes (240 seconds), and 55 agents. The target answer time for service level is 15 seconds.</p>
       <form>
         <div class="col-sm-6">
         <label>Required Values</label>
         <div class="form-group">
-          <input type="number" class="form-control" id="totalTimePeriodSeconds"
-          placeholder="Number of seconds in a time period" />
+          <label for="timePeriodInSeconds">Time period (s)</label>
+          <input type="number" class="form-control" id="timePeriodInSeconds"
+          placeholder="Number of seconds in a time period" value="1800" />
         </div>
         <div class="form-group">
+          <label for="totalNumberOfCalls">Total number of calls in time period</label>
           <input type="number" class="form-control" id="totalNumberOfCalls"
-          placeholder="Total number of calls in a time period" />
+          placeholder="Total number of calls in a time period" value="360" />
         </div>
         <div class="form-group">
-          <input type="number" class="form-control" id="totalCallDuration"
-          placeholder="Total call duration (sum of length of all calls in seconds)" />
+          <label for="averageCallDuration">Average call duration</label>
+          <input type="number" class="form-control" id="averageCallDuration"
+          placeholder="Average call duration (s)" value="240" />
         </div>
         <div class="form-group">
+          <label for="numberOfAgents">Number of agents</label>
           <input type="number" class="form-control" id="numberOfAgents"
-          placeholder="Number of agents" />
+          placeholder="Number of agents" value="55" />
         </div>
         <div class="form-group">
+          <label for="targetAnswerTime">Target answer time</label>
           <input type="number" class="form-control" id="targetAnswerTime"
-          placeholder="Target answer time (s)" />
+          placeholder="Target answer time (s)" value="15" />
         </div>
       </div>
         <div class="col-sm-6">
         <label>Calculated Values</label>
         <div class="form-group">
+          <label for="averageArrivalRate">Average arrival rate (calls / sec)</label>
           <input type="text" class="form-control" id="averageArrivalRate"
-          placeholder="Average arrival rate (calls per second)" disabled />
+          placeholder="Average arrival rate (calls per second)" readonly />
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" id="averageCallDuration"
-          placeholder="Average call duration (s)" disabled />
-        </div>
-        <div class="form-group">
+          <label for="trafficIntensity">Traffic intensity</label>
           <input type="text" class="form-control" id="trafficIntensity"
-          placeholder="Traffic intensity" disabled />
+          placeholder="Traffic intensity" readonly />
         </div>
         <div class="form-group">
+          <label for="agentOccupancy">Agent occupancy (utilitization, %)</label>
           <input type="text" class="form-control" id="agentOccupancy"
-          placeholder="Agent occupancy" disabled />
+          placeholder="Agent occupancy" readonly />
         </div>
         <div class="form-group">
+          <label for="probabilityOfWaiting">Probability of waiting (%)</label>
           <input type="text" class="form-control" id="probabilityOfWaiting"
-          placeholder="Probability of waiting" disabled />
+          placeholder="Probability of waiting" readonly />
         </div>
         <div class="form-group">
+          <label for="averageSpeedOfAnswer">Average speed of answer (response time, s)</label>
           <input type="text" class="form-control" id="averageSpeedOfAnswer"
-          placeholder="Average speed of answer (response time)" disabled />
+          placeholder="Average speed of answer (response time)" readonly />
         </div>
         <div class="form-group">
+          <label for="serviceLevel">Service level (%)</label>
           <input type="text" class="form-control" id="serviceLevel"
-          placeholder="Service level (requires a target answer time)" disabled />
+          placeholder="Service level (requires a target answer time)" readonly />
         </div>
       </div>
       </form>
@@ -143,5 +151,6 @@
   <script src="html/node_modules/jquery/dist/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="html/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="html/js/script.js"></script>
 </body>
 </html>
