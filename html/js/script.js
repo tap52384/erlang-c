@@ -63,15 +63,25 @@
     // Tw = (probability of waiting * average call duration) /
     // (number of agents * (1 - agent occupancy))
     averageSpeedOfAnswer = numberOfAgents > 0 && agentOccupancy !== 1 ?
-    probabilityOfWaiting * averageCallDuration /
+    ( probabilityOfWaiting * averageCallDuration ) /
     ( numberOfAgents * ( 1 - agentOccupancy ) ) :
     0;
 
     var eExponent = averageCallDuration > 0 ?
-    -( numberOfAgents - trafficIntensity ) *
+    ( numberOfAgents - trafficIntensity ) * -1 *
     ( targetAnswerTime / averageCallDuration ) :
     0;
     serviceLevel = 1 - ( probabilityOfWaiting * Math.exp( eExponent ) );
+
+    erlangc.log( 'probabilityOfWaiting: ' + probabilityOfWaiting );
+    erlangc.log( 'averageCallDuration: ' + averageCallDuration );
+    erlangc.log( 'numberOfAgents: ' + numberOfAgents );
+    erlangc.log( 'agentOccupancy: ' + agentOccupancy );
+    erlangc.log( 'p: ' + ( 1 - agentOccupancy ) );
+    erlangc.log( 'trafficIntensity: ' + trafficIntensity );
+    erlangc.log( 'averageSpeedOfAnswer: ' + averageSpeedOfAnswer );
+    erlangc.log( 'targetAnswerTime: ' + targetAnswerTime );
+    erlangc.log( 'e exponent: ' + eExponent );
 
   }
 
@@ -94,10 +104,10 @@
   /**
   * Reads a textbox and converts its value into an int.
   */
-  function getValueAsInt( id ) {
+  function getValueAsFloat( id ) {
       var element = document.getElementById( id );
       var value = element !== null ? element.value.trim().replace( / /g, '' ) : null;
-      var int = parseInt( value, 10 );
+      var int = parseFloat( value );
       return !isNaN( int ) ? int : 0;
   }
 
@@ -106,11 +116,11 @@
   */
   function read() {
 
-    totalNumberOfCalls = getValueAsInt( 'totalNumberOfCalls' );
-    timePeriodInSeconds = getValueAsInt( 'timePeriodInSeconds' );
-    averageCallDuration = getValueAsInt( 'averageCallDuration' );
-    numberOfAgents = getValueAsInt( 'numberOfAgents' );
-    targetAnswerTime = getValueAsInt( 'targetAnswerTime' );
+    totalNumberOfCalls = getValueAsFloat( 'totalNumberOfCalls' );
+    timePeriodInSeconds = getValueAsFloat( 'timePeriodInSeconds' );
+    averageCallDuration = getValueAsFloat( 'averageCallDuration' );
+    numberOfAgents = getValueAsFloat( 'numberOfAgents' );
+    targetAnswerTime = getValueAsFloat( 'targetAnswerTime' );
 
   }
 
@@ -118,14 +128,24 @@
   * Writes the calculated values to the appropriate textboxes.
   */
   function write() {
-    document.getElementById( 'averageArrivalRate' ).value = averageArrivalRate + ' calls / second';
+    var timeUnit = 'second';
+    var timeSelect = document.getElementById( 'time-unit' ).value;
+    if ( timeSelect === '0' ) {
+      timeUnit = 'minute';
+    }
+    if ( timeSelect === '1' ) {
+      timeUnit = 'hour';
+    }
+
+    document.getElementById( 'averageArrivalRate' ).value =
+    averageArrivalRate + ' calls / ' + timeUnit;
     document.getElementById( 'trafficIntensity' ).value = trafficIntensity;
     document.getElementById( 'agentOccupancy' ).value =
     ( agentOccupancy * 100 ).toFixed( 2 ) + '%';
     document.getElementById( 'probabilityOfWaiting' ).value =
     ( probabilityOfWaiting * 100 ).toFixed( 2 ) + '%';
     document.getElementById( 'averageSpeedOfAnswer' ).value =
-    averageSpeedOfAnswer.toFixed( 2 ) + ' seconds';
+    averageSpeedOfAnswer.toFixed( 2 ) + ' ' + timeUnit + 's';
     document.getElementById( 'serviceLevel' ).value = ( serviceLevel * 100 ).toFixed( 2 ) + '%';
   }
 
@@ -140,6 +160,37 @@
     return number * erlangc.factorial( number - 1 );
 
   };
+
+  /**
+  Slightly more concise and improved version based on
+  http://www.jquery4u.com/snippets/url-parameters-jquery/
+  from https://gist.github.com/1771618
+  apparently, 'unescape' is now deprecated for security reasons.
+  it will be used as a fall back instead of the primary way to get an answer.
+  window.location.search gets you the query string of the current URL
+  */
+  function getUrlVar( key ) {
+
+    var queryString = getQueryString();
+
+    if ( key === null ||
+      key.trim().replace( / /g, '' ) === '' ||
+      queryString === null ||
+      queryString.trim().replace( / /g, '' ) === ''
+    ) {
+      return '';
+    }
+
+  var result = new RegExp( key + '=([^&]*)', 'i' ).exec( queryString );
+  return result && decodeURIComponent( result[ 1 ] ) || '';
+  }
+
+  function getQueryString() {
+
+    return window && window.location && window.location.search ?
+    window.location.search :
+    '';
+  }
 
   /**
   * Checks for console.log support then logs the specified text.
@@ -174,8 +225,45 @@
       erlangc.update();
   } );
 
+  $( '#time-unit' ).change( function( e ) {
+      var timeUnit = 's';
+      if ( this.value === '0' ) {
+          timeUnit = 'm';
+      }
+      if ( this.value === '1' ) {
+          timeUnit = 'h';
+      }
+
+      $( 'label[for="timePeriodInSeconds"]' ).text( 'Time period (' + timeUnit + ')' );
+      $( 'label[for="averageCallDuration"]' ).text( 'Average call duration (' + timeUnit + ')' );
+      $( 'label[for="targetAnswerTime"]' ).text( 'Target answer time (' + timeUnit + ')' );
+      $( 'label[for="averageArrivalRate"]' ).
+      text( 'Average arrival rate (calls / ' + timeUnit + ')' );
+      $( 'label[for="averageSpeedOfAnswer"]' ).
+      text( 'Average speed of answer (response time, ' + timeUnit + ')' );
+
+      // Update the calculated values with the proper time unit
+      write();
+  } );
+
+  if ( getUrlVar( 'time' ) === 'minute' ) {
+    document.getElementById( 'timePeriodInSeconds' ).value = 30;
+    document.getElementById( 'averageCallDuration' ).value = 4;
+    document.getElementById( 'targetAnswerTime' ).value = 0.25;
+    document.getElementById( 'time-unit' ).value = '0';
+    $( '#time-unit' ).change();
+  }
+
+  if ( getUrlVar( 'time' ) === 'hour' ) {
+    document.getElementById( 'timePeriodInSeconds' ).value = ( 30 / 60 );
+    document.getElementById( 'averageCallDuration' ).value = ( 4 / 60 );
+    document.getElementById( 'targetAnswerTime' ).value = ( 0.25 / 60 );
+    document.getElementById( 'time-unit' ).value = '1';
+  }
+
   // Executes calculations upon page load.
   erlangc.update();
+  $( '#time-unit' ).change();
 
 }( window.erlangc = window.erlangc || {}, jQuery, window, document ) );
 
